@@ -1,0 +1,25 @@
+@media screen and (min-width: 725px) and (max-width: 960px) {
+
+    .desktop {
+        display: none;
+    }
+
+    nav {
+        margin-left: 350px;
+        min-width: 10%;
+    }
+
+    nav ul li {
+        padding: 20px;
+        border-top: solid 4px black;
+        border-bottom: solid 4px black;
+        display: inline-block; /*This lists items horizontally and allows them to stretch*/
+        border-radius: 25px;
+        min-width: 10%;
+    }
+
+    main div .center {
+        width: 60%;
+        border-right: 0.3em solid black;
+    }
+}

@@ -1,0 +1,121 @@
+@import url("tabletstyle.css");
+@import url("mobliestyle.css");
+
+
+body {
+    background-color: paleturquoise;
+}
+
+header {
+    font-family: Tahoma, sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+nav {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-top: -95px;
+}
+
+nav ul {
+    padding: 0;
+    margin: 10px 0;
+}
+
+nav ul {
+    padding: 0;
+    margin: 2px;
+}
+
+nav ul li {
+    list-style-type: none;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    padding: 10px 0px;
+    margin: 15px;
+    background-color: turquoise;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: yellow;
+}
+
+main .row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+main div .column {
+    float: left;
+}
+
+main div .left {
+    padding: 0.5%;
+    width: 20%;
+    float: left;
+}
+
+main div .right {
+    float: right;
+    padding: 0.5%;
+    width: 25%;
+}
+
+#intro {
+    text-align: center;
+    background-color: aliceblue;
+    border-radius: 25%;
+}
+
+#intro .intro-question {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#intro .intro-answer {
+    font-family: Helvetica, sans-serif;
+    font-size: 24px;
+}
+
+/*Begin desktop.*/
+@media screen and (min-width: 961px) {
+
+    header {
+        width: auto;
+        height: 100%;
+        border-width: 20px;
+        border-top: solid 0.2em black;
+        border-bottom: solid 0.2em black;
+        background-image: linear-gradient(to right, aquamarine, turquoise, turquoise, turquoise);
+    }
+
+    nav {
+        background-color: turquoise;
+        padding-top: 1.4em;
+        margin-top: -8.1em; /*This moves the nav element above where it would normally be.*/
+        width: 57%;
+        padding-bottom: 1.4em;
+        float: right; /*This floats the nav element to the right side of the page.*/
+        border-top: solid 0.2em black;
+        border-bottom: solid 0.2em black;
+        
+    }
+
+    nav ul li {
+        display: inline-block; /*This lists items horizontally and allows them to stretch*/
+    }
+
+    main div .center {
+        padding: 0.5%;
+        width: 51%;
+        border-right: 0.3em solid black;
+        border-left: 0.3em solid black;
+    }
+
+}
+/*End desktop.*/
