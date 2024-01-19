@@ -1,1 +1,13 @@
+let num = Number(prompt("Pick a number"));
 
+
+const apiKey = "46154c02dda07b16f900a7be80797873";
+const apiEndpoint = "https://api.openweathermap.org/data/2.5/weather";
+
+// Fetching temperature data
+fetch(`${apiEndpoint}?appid=${apiKey}&q=${encodeURIComponent('Durham')}&units=metric`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(`The temperature in ${data.name} is ${data.main.temp}°C`);
+  })
+  .catch(error => console.error(error))
