@@ -6,8 +6,6 @@ $(function() {
   var data = JSON.parse(predata);
     for(i = 0; i < data.length; i++) {
       dataObject['shirt'] = data[i][0];
-      dataObject['trouser'] = data[i][1];
-      dataObject['short'] = data[i][2];
         product[i] = dataObject;
         console.log(dataObject);
     }
