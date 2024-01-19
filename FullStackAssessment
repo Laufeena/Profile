@@ -1,4 +1,18 @@
-let num = Number(prompt("Pick a number"));
+$(function() {
+  var product = {};
+  var dataObject = {};
+  var i = 0;
+  var predata = $('#preferences').text();
+  var data = JSON.parse(predata);
+    for(i = 0; i < data.length; i++) {
+      dataObject['shirt'] = data[i][0];
+      dataObject['trouser'] = data[i][1];
+      dataObject['short'] = data[i][2];
+        product[i] = dataObject;
+        console.log(dataObject);
+    }
+  console.log(product);
+});
 
 
 const apiKey = "46154c02dda07b16f900a7be80797873";
@@ -11,3 +25,11 @@ fetch(`${apiEndpoint}?appid=${apiKey}&q=${encodeURIComponent('Durham')}&units=me
     console.log(`The temperature in ${data.name} is ${data.main.temp}°C`);
   })
   .catch(error => console.error(error))
+
+// Using temp data to decide what product will be added
+if data.main.temp =< 22 {
+addProduct {trousers}
+}
+else {
+addProduct {shorts}
+}
