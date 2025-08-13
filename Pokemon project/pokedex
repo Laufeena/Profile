@@ -4,7 +4,7 @@ int main() {
 
   int number = 9;
 
-  switch (number) {
+  switch(number) {
     case 1 :
       std::cout << "Bulbasaur\n";
       break;
@@ -12,7 +12,7 @@ int main() {
       std::cout << "Ivysaur\n";
       break;
     case 3 :
-      std::Cout << "Venasuar\n";
+      std::cout << "Venasuar\n";
       break;
     case 4 :
       std::cout << "Charmander\n";
@@ -32,4 +32,5 @@ int main() {
     case 9 :
       std::cout << "Blastoise\n";
       break;
+  }
 }
