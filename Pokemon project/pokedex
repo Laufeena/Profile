@@ -32,5 +32,14 @@ int main() {
     case 9 :
       std::cout << "Blastoise\n";
       break;
+    case 10 :
+      std::cout << "Pidgey\n";
+      break;
+    case 11 :
+      std::cout << "Pidgeotto\n";
+      break;
+    case 12 :
+      std::cout << "Pidgeot\n";
+      break;
   }
 }
