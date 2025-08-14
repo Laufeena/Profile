@@ -1,18 +1,19 @@
 #include <iostream>
 
 int main() {
-
+  
   int number = 9;
-
+  
   switch(number) {
+    
     case 1 :
-      std::cout << "Bulbasaur\n";
+      std::cout << "Bulbusaur\n";
       break;
     case 2 :
       std::cout << "Ivysaur\n";
       break;
     case 3 :
-      std::cout << "Venasuar\n";
+      std::cout << "Venusaur\n";
       break;
     case 4 :
       std::cout << "Charmander\n";
@@ -27,19 +28,15 @@ int main() {
       std::cout << "Squirtle\n";
       break;
     case 8 :
-      std::cout << "Wartortle\n";
+      std::cout << "Wartortle";
       break;
     case 9 :
-      std::cout << "Blastoise\n";
+      std::cout << "Blastoise";
       break;
-    case 10 :
-      std::cout << "Pidgey\n";
+    default :
+      std::cout << "Unknown\n";
       break;
-    case 11 :
-      std::cout << "Pidgeotto\n";
-      break;
-    case 12 :
-      std::cout << "Pidgeot\n";
-      break;
+  
   }
+  
 }
