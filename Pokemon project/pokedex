@@ -33,6 +33,81 @@ int main() {
     case 9 :
       std::cout << "Blastoise";
       break;
+    case 10 :
+      std::cout << "Caterpie\n";
+      break;
+    case 11 :
+      std::cout << "Metapod\n";
+      break;
+    case 12 :
+      std::cout << "Butterfree\n";
+      break;
+    case 13 :
+      std::cout << "Weedle\n";
+      break;
+    case 14 :
+      std::cout << "Kakuna\n";
+      break;
+    case 15 :
+      std::cout << "Beedrill\n";
+      break;
+    case 16 :
+      std::cout << "Pidgey\n";
+      break;
+    case 17 :
+      std::cout << "Pidgeotto\n";
+      break;
+    case 18 :
+      std::cout << "Pidgeot\n";
+      break;
+    case 19 :
+      std::cout << "Rattata\n";
+      break;
+    case 20 :
+      std::cout << "Raticate\n";
+      break;
+    case 21 :
+      std::cout << "Spearow\n";
+      break;
+    case 22 :
+      std::cout << "Fearow\n";
+      break;
+    case 23 :
+      std::cout << "Ekans\n";
+      break;
+    case 24 :
+      std::cout << "Arbok\n";
+      break;
+    case 25 :
+      std::cout << "Pikachu\n";
+      break;
+    case 26 :
+      std::cout << "Raichu\n";
+      break;
+    case 27 :
+      std::cout << "Sandshrew\n";
+      break;
+    case 28 :
+      std::cout << "Sandslash\n";
+      break;
+    case 29 :
+      std::cout << "Nidoran♀\n";
+      break;
+    case 30 :
+      std::cout << "Nidorina\n";
+      break;
+    case 31 :
+      std::cout << "Nidoqueen\n";
+      break;
+    case 32 :
+      std::cout << "Nidoran♂\n";
+      break;
+    case 33 :
+      std::cout << "Nidorino\n";
+      break;
+    case 34 :
+      std::cout << "Nidoking\n";
+      break;
     default :
       std::cout << "Unknown\n";
       break;
