@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Legendary Warriors Battle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+            overflow: hidden;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .battlefield-3d {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            transform-style: preserve-3d;
+            animation: cameraRotate 20s infinite linear;
+        }
+        
+        @keyframes cameraRotate {
+            0% { transform: rotateY(0deg) rotateX(5deg); }
+            100% { transform: rotateY(360deg) rotateX(5deg); }
+        }
+        
+        .arena-floor {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotateX(90deg) translateZ(-200px);
+            background: 
+                radial-gradient(circle at center, rgba(255, 215, 0, 0.3) 0%, transparent 70%),
+                conic-gradient(from 0deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+            border: 4px solid #FFD700;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 100px rgba(255, 215, 0, 0.5),
+                inset 0 0 100px rgba(255, 255, 255, 0.1);
+        }
+        
+        .arena-walls {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+        
+        .wall {
+            position: absolute;
+            width: 800px;
+            height: 400px;
+            background: linear-gradient(45deg, rgba(255, 69, 0, 0.1), rgba(138, 43, 226, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .wall-front {
+            transform: translateZ(400px) translateX(-50%) translateY(-50%);
+            left: 50%;
+            top: 50%;
+        }
+        
+        .wall-back {
+            transform: translateZ(-400px) rotateY(180deg) translateX(-50%) translateY(-50%);
+            left: 50%;
+            top: 50%;
+        }
+        
+        .wall-left {
+            transform: rotateY(-90deg) translateZ(400px) translateX(-50%) translateY(-50%);
+            left: 50%;
+            top: 50%;
+        }
+        
+        .wall-right {
+            transform: rotateY(90deg) translateZ(400px) translateX(-50%) translateY(-50%);
+            left: 50%;
+            top: 50%;
+        }
+        
+        .fighter-3d {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+        
+        .fighter-3d:hover {
+            transform: scale(1.2) rotateY(360deg);
+        }
+        
+        .fighter-3d.attacking {
+            animation: attack3d 1s ease-in-out;
+        }
+        
+        @keyframes attack3d {
+            0% { transform: rotateY(0deg) scale(1); }
+            25% { transform: rotateY(90deg) scale(1.3) translateZ(50px); }
+            50% { transform: rotateY(180deg) scale(1.5) translateZ(100px); }
+            75% { transform: rotateY(270deg) scale(1.2) translateZ(50px); }
+            100% { transform: rotateY(360deg) scale(1); }
+        }
+        
+        .sun-wukong-3d {
+            left: 20%;
+            top: 30%;
+            transform: translateZ(100px) rotateY(45deg);
+            color: #FFD700;
+        }
+        
+        .kratos-3d {
+            right: 20%;
+            top: 25%;
+            transform: translateZ(150px) rotateY(-45deg);
+            color: #DC143C;
+        }
+        
+        .ichigo-3d {
+            left: 50%;
+            bottom: 20%;
+            transform: translateX(-50%) translateZ(120px) rotateY(0deg);
+            color: #FF4500;
+        }
+        
+        .fighter-model {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .fighter-front, .fighter-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(255,255,255,0.1));
+            border: 3px solid currentColor;
+            box-shadow: 0 0 30px currentColor;
+        }
+        
+        .fighter-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(0,0,0,0.8));
+        }
+        
+        .fighter-name-3d {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: 2px solid currentColor;
+        }
+        
+        .power-aura {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, currentColor, transparent);
+            opacity: 0.3;
+            animation: auraGlow 2s infinite ease-in-out;
+            pointer-events: none;
+        }
+        
+        @keyframes auraGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+        }
+        
+        .energy-orbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .orb {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #fff, #FFD700);
+            border-radius: 50%;
+            animation: orbFloat 4s infinite ease-in-out;
+            box-shadow: 0 0 20px #FFD700;
+        }
+        
+        @keyframes orbFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateZ(0px) rotateY(0deg); 
+                opacity: 0.8; 
+            }
+            50% { 
+                transform: translateY(-100px) translateZ(200px) rotateY(180deg); 
+                opacity: 1; 
+            }
+        }
+        
+        .controls-3d {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            perspective: 500px;
+        }
+        
+        .control-btn-3d {
+            padding: 15px 25px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transform-style: preserve-3d;
+        }
+        
+        .control-btn-3d:hover {
+            transform: translateY(-5px) rotateX(10deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            background: linear-gradient(45deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .control-btn-3d:active {
+            transform: translateY(-2px) rotateX(5deg);
+        }
+        
+        .title-3d {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            z-index: 1000;
+            background: linear-gradient(45deg, #FFD700, #FF4500, #DC143C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .battle-explosion {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) translateZ(200px);
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff, #FFD700, #FF4500, transparent);
+            opacity: 0;
+            pointer-events: none;
+            animation: explosion3d 1.5s ease-out;
+        }
+        
+        @keyframes explosion3d {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) translateZ(200px) scale(0) rotateY(0deg); 
+            }
+            20% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) translateZ(200px) scale(1.5) rotateY(72deg); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) translateZ(200px) scale(3) rotateY(360deg); 
+            }
+        }
+        
+        .camera-controls {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .camera-btn {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background: rgba(0,0,0,0.7);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .camera-btn:hover {
+            background: #FFD700;
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .fighter-3d {
+                width: 100px;
+                height: 150px;
+            }
+            
+            .fighter-front, .fighter-back {
+                font-size: 40px;
+            }
+            
+            .title-3d {
+                font-size: 24px;
+            }
+            
+            .controls-3d {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .camera-controls {
+                right: 10px;
+                top: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="battlefield-3d" id="battlefield">
+        <div class="arena-floor"></div>
+        
+        <div class="arena-walls">
+            <div class="wall wall-front"></div>
+            <div class="wall wall-back"></div>
+            <div class="wall wall-left"></div>
+            <div class="wall wall-right"></div>
+        </div>
+        
+        <div class="energy-orbs" id="orbs"></div>
+        
+        <h1 class="title-3d">⚔️ 3D LEGENDARY WARRIORS BATTLE ⚔️</h1>
+        
+        <div class="fighter-3d sun-wukong-3d" onclick="attack3D('wukong')">
+            <div class="power-aura"></div>
+            <div class="fighter-model">
+                <div class="fighter-front">🐒</div>
+                <div class="fighter-back">🌟</div>
+            </div>
+            <div class="fighter-name-3d">Sun Wukong<br>Monkey King</div>
+        </div>
+        
+        <div class="fighter-3d kratos-3d" onclick="attack3D('kratos')">
+            <div class="power-aura"></div>
+            <div class="fighter-model">
+                <div class="fighter-front">⚔️</div>
+                <div class="fighter-back">⚡</div>
+            </div>
+            <div class="fighter-name-3d">Kratos<br>God of War</div>
+        </div>
+        
+        <div class="fighter-3d ichigo-3d" onclick="attack3D('ichigo')">
+            <div class="power-aura"></div>
+            <div class="fighter-model">
+                <div class="fighter-front">🗡️</div>
+                <div class="fighter-back">🔥</div>
+            </div>
+            <div class="fighter-name-3d">Ichigo Kurosaki<br>Soul Reaper</div>
+        </div>
+        
+        <div class="camera-controls">
+            <button class="camera-btn" onclick="changeCamera('top')">📹 Top View</button>
+            <button class="camera-btn" onclick="changeCamera('side')">📹 Side View</button>
+            <button class="camera-btn" onclick="changeCamera('rotate')">📹 Rotate</button>
+            <button class="camera-btn" onclick="changeCamera('close')">📹 Close Up</button>
+        </div>
+        
+        <div class="controls-3d">
+            <button class="control-btn-3d" onclick="epicBattle3D()">🔥 3D Epic Battle</button>
+            <button class="control-btn-3d" onclick="ultimateClash()">💥 Ultimate Clash</button>
+            <button class="control-btn-3d" onclick="resetArena3D()">🔄 Reset Arena</button>
+            <button class="control-btn-3d" onclick="powerSurge3D()">⚡ Power Surge</button>
+        </div>
+    </div>
+
+    <script>
+        let cameraMode = 'rotate';
+        
+        // Create floating energy orbs
+        function createOrbs() {
+            const container = document.getElementById('orbs');
+            for (let i = 0; i < 20; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'orb';
+                orb.style.left = Math.random() * 100 + '%';
+                orb.style.top = Math.random() * 100 + '%';
+                orb.style.animationDelay = Math.random() * 4 + 's';
+                orb.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(orb);
+            }
+        }
+        
+        // 3D Fighter attacks
+        function attack3D(fighter) {
+            const fighters = {
+                'wukong': document.querySelector('.sun-wukong-3d'),
+                'kratos': document.querySelector('.kratos-3d'),
+                'ichigo': document.querySelector('.ichigo-3d')
+            };
+            
+            const element = fighters[fighter];
+            element.classList.add('attacking');
+            
+            // Create 3D explosion effect
+            const explosion = document.createElement('div');
+            explosion.className = 'battle-explosion';
+            document.getElementById('battlefield').appendChild(explosion);
+            
+            // Screen shake effect
+            document.body.style.animation = 'shake3d 0.8s ease-in-out';
+            
+            setTimeout(() => {
+                element.classList.remove('attacking');
+                explosion.remove();
+                document.body.style.animation = '';
+            }, 1500);
+        }
+        
+        // Epic 3D battle sequence
+        function epicBattle3D() {
+            const fighters = ['wukong', 'kratos', 'ichigo'];
+            let battleRound = 0;
+            
+            // Pause camera rotation during battle
+            document.getElementById('battlefield').style.animationPlayState = 'paused';
+            
+            const battleInterval = setInterval(() => {
+                if (battleRound >= 12) {
+                    clearInterval(battleInterval);
+                    ultimateClash();
+                    // Resume camera rotation
+                    document.getElementById('battlefield').style.animationPlayState = 'running';
+                    return;
+                }
+                
+                const randomFighter = fighters[Math.floor(Math.random() * fighters.length)];
+                attack3D(randomFighter);
+                battleRound++;
+            }, 600);
+        }
+        
+        // Ultimate clash with multiple explosions
+        function ultimateClash() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const explosion = document.createElement('div');
+                    explosion.className = 'battle-explosion';
+                    explosion.style.left = (30 + Math.random() * 40) + '%';
+                    explosion.style.top = (30 + Math.random() * 40) + '%';
+                    document.getElementById('battlefield').appendChild(explosion);
+                    
+                    setTimeout(() => explosion.remove(), 1500);
+                }, i * 300);
+            }
+            
+            // Intense screen shake
+            document.body.style.animation = 'shake3d 2s ease-in-out';
+            setTimeout(() => {
+                document.body.style.animation = '';
+            }, 2000);
+        }
+        
+        // 3D Power surge
+        function powerSurge3D() {
+            const allFighters = document.querySelectorAll('.fighter-3d');
+            allFighters.forEach((fighter, index) => {
+                setTimeout(() => {
+                    fighter.classList.add('attacking');
+                    setTimeout(() => fighter.classList.remove('attacking'), 1000);
+                }, index * 300);
+            });
+            
+            // Enhance aura effects
+            document.querySelectorAll('.power-aura').forEach(aura => {
+                aura.style.animation = 'auraGlow 0.5s infinite ease-in-out';
+                setTimeout(() => {
+                    aura.style.animation = 'auraGlow 2s infinite ease-in-out';
+                }, 3000);
+            });
+        }
+        
+        // Camera control system
+        function changeCamera(mode) {
+            const battlefield = document.getElementById('battlefield');
+            cameraMode = mode;
+            
+            switch(mode) {
+                case 'top':
+                    battlefield.style.animation = 'none';
+                    battlefield.style.transform = 'rotateX(60deg) rotateY(0deg)';
+                    break;
+                case 'side':
+                    battlefield.style.animation = 'none';
+                    battlefield.style.transform = 'rotateX(0deg) rotateY(90deg)';
+                    break;
+                case 'close':
+                    battlefield.style.animation = 'none';
+                    battlefield.style.transform = 'rotateX(10deg) rotateY(45deg) scale(1.5)';
+                    break;
+                case 'rotate':
+                default:
+                    battlefield.style.animation = 'cameraRotate 20s infinite linear';
+                    battlefield.style.transform = '';
+                    break;
+            }
+        }
+        
+        // Reset 3D arena
+        function resetArena3D() {
+            document.querySelectorAll('.fighter-3d').forEach(fighter => {
+                fighter.classList.remove('attacking');
+            });
+            
+            document.querySelectorAll('.battle-explosion').forEach(explosion => {
+                explosion.remove();
+            });
+            
+            changeCamera('rotate');
+            document.body.style.animation = '';
+        }
+        
+        // Add 3D shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake3d {
+                0%, 100% { transform: translateX(0) translateY(0) rotateZ(0deg); }
+                10% { transform: translateX(-10px) translateY(-5px) rotateZ(-1deg); }
+                20% { transform: translateX(10px) translateY(5px) rotateZ(1deg); }
+                30% { transform: translateX(-8px) translateY(-3px) rotateZ(-0.5deg); }
+                40% { transform: translateX(8px) translateY(3px) rotateZ(0.5deg); }
+                50% { transform: translateX(-6px) translateY(-2px) rotateZ(-0.3deg); }
+                60% { transform: translateX(6px) translateY(2px) rotateZ(0.3deg); }
+                70% { transform: translateX(-4px) translateY(-1px) rotateZ(-0.2deg); }
+                80% { transform: translateX(4px) translateY(1px) rotateZ(0.2deg); }
+                90% { transform: translateX(-2px) translateY(-0.5px) rotateZ(-0.1deg); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize 3D environment
+        createOrbs();
+        
+        // Auto-rotate fighters for dynamic effect
+        setInterval(() => {
+            if (cameraMode === 'rotate') {
+                document.querySelectorAll('.fighter-3d').forEach((fighter, index) => {
+                    const currentTransform = fighter.style.transform || '';
+                    const rotation = (Date.now() / 50 + index * 120) % 360;
+                    fighter.style.transform = currentTransform.replace(/rotateY\([^)]*\)/, '') + ` rotateY(${rotation}deg)`;
+                });
+            }
+        }, 100);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975ed9cb1622946a',t:'MTc1NjMzMjEyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
